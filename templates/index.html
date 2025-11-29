@@ -1,22 +1,125 @@
 <!DOCTYPE html>
-<html >
+<html lang="es">
 <head>
   <meta charset="UTF-8">
-  
-  <!-- Asegura la compatibilidad con dispositivos móviles -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
   <title>Panel experimental de cultivo urbano</title>
-  
+  <style>
+    :root {
+      --bg: #0c0f17;
+      --panel: #161b2b;
+      --accent: #7b5ed0;
+      --accent-light: #b89aff;
+      --text: #f2f2f2;
+      --error: #ff6b6b;
+    }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Poppins", "Segoe UI", Tahoma, sans-serif;
+      background: radial-gradient(circle at top, #1f2d46, var(--bg));
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+    .panel {
+      width: 100%;
+      max-width: 480px;
+      background: var(--panel);
+      border-radius: 18px;
+      padding: 2.5rem;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    h1 {
+      margin-top: 0;
+      font-size: 1.8rem;
+      color: var(--accent-light);
+      text-align: center;
+    }
+    p.sub {
+      text-align: center;
+      color: rgba(255, 255, 255, 0.7);
+      margin-bottom: 1.5rem;
+    }
+    .input-group {
+      position: relative;
+      margin-bottom: 1.2rem;
+    }
+    .input-group label {
+      display: block;
+      font-size: 0.9rem;
+      margin-bottom: 0.35rem;
+      color: rgba(255, 255, 255, 0.85);
+    }
+    .input-group input {
+      width: 100%;
+      padding: 0.85rem 1rem;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--text);
+      font-size: 1rem;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .input-group input:focus {
+      border-color: var(--accent);
+      outline: none;
+      transform: translateY(-2px);
+    }
+    button {
+      width: 100%;
+      border: none;
+      border-radius: 12px;
+      padding: 0.95rem 1rem;
+      background: linear-gradient(135deg, var(--accent), var(--accent-light));
+      color: #fff;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    button:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 10px 25px rgba(123, 94, 208, 0.35);
+    }
+    .errores {
+      background: rgba(255, 107, 107, 0.1);
+      border: 1px solid rgba(255, 107, 107, 0.5);
+      padding: 1rem;
+      border-radius: 12px;
+      color: var(--error);
+      margin-bottom: 1.2rem;
+      font-size: 0.95rem;
+    }
+    .resultado {
+      margin-top: 1.5rem;
+      padding: 1rem;
+      border-radius: 12px;
+      background: rgba(123, 94, 208, 0.15);
+      border: 1px solid rgba(123, 94, 208, 0.4);
+      text-align: center;
+      font-size: 1.1rem;
+      color: var(--accent-light);
+    }
+    .nota {
+      margin-top: 1rem;
+      font-size: 0.9rem;
+      text-align: center;
+      color: rgba(255, 255, 255, 0.7);
+    }
+  </style>
 </head>
 
-<body style="background: #000;">
- <div class="login">
-	<h1 style="color:Violet;">Simulador de crecimiento para huertas (beta)</h1>
+<body>
+  <section class="panel">
+    <h1>Simulador de crecimiento</h1>
+    <p class="sub">Ingresa los controles básicos de la parcela y proyecta su puntaje tentativo.</p>
 
     {% if errors %}
-    <div style="color: #ff6b6b; margin-bottom: 1em;">
-      Se encontraron los siguientes errores:
+    <div class="errores">
+      <strong>Revisa los campos:</strong>
       <ul>
         {% for field, message in errors.items() %}
         <li>{{ field }}: {{ message }}</li>
@@ -25,27 +128,29 @@
     </div>
     {% endif %}
 
-     <!-- Action indica adónde se envían los datos; en nuestro caso, a la página predict.
-     Si se omite action, se asume que es la página actual -->
-	    <form action="{{ url_for('predict')}}"method="post">
-	    	<input type="text" name="horas_luz" placeholder="Horas de luz solar (0 - 100)" required="required" /><br>
-        <input type="text" name="nivel_riego" placeholder="Nivel de riego/aspersión (0 - 100)" required="required" /><p>
-
-        <button type="submit" class="btn btn-primary btn-block btn-large">Calcular crecimiento tentativo</button></p>
+    <form action="{{ url_for('predict')}}" method="post">
+      <div class="input-group">
+        <label for="horas_luz">Horas de luz solar</label>
+        <input id="horas_luz" type="text" name="horas_luz"
+               placeholder="Ejemplo: 40" required="required" />
+      </div>
+      <div class="input-group">
+        <label for="nivel_riego">Nivel de riego/aspersión</label>
+        <input id="nivel_riego" type="text" name="nivel_riego"
+               placeholder="Ejemplo: 35" required="required" />
+      </div>
+      <button type="submit">Calcular crecimiento tentativo</button>
     </form>
 
-   <br>
-   <br>
-   {% if prediction_text %}
-   <h4 style="color:Violet;">
-   {{ prediction_text }} </h4>
-   {% endif %}
-   <p style="color: white; font-size: 0.9em;">
-    Ingresa valores numéricos dentro del rango 0 a 100 para simular condiciones básicas de luz y riego en esta fase beta.
-   </p>
+    {% if prediction_text %}
+    <div class="resultado">
+      {{ prediction_text }}
+    </div>
+    {% endif %}
 
- </div>
-
-
+    <p class="nota">
+      Usa valores entre 0 y 100 para simular condiciones seguras durante la fase beta.
+    </p>
+  </section>
 </body>
 </html>
