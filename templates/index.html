@@ -14,19 +14,32 @@
  <div class="login">
 	<h1 style="color:Violet;">Simulador de crecimiento para huertas (beta)</h1>
 
+    {% if errors %}
+    <div style="color: #ff6b6b; margin-bottom: 1em;">
+      Se encontraron los siguientes errores:
+      <ul>
+        {% for field, message in errors.items() %}
+        <li>{{ field }}: {{ message }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+    {% endif %}
+
      <!-- Action indica adónde se envían los datos; en nuestro caso, a la página predict.
      Si se omite action, se asume que es la página actual -->
 	    <form action="{{ url_for('predict')}}"method="post">
-	    	<input type="text" name="sunlight_hours" placeholder="Horas de luz solar (0 - 100)" required="required" /><br>
-        <input type="text" name="watering_level" placeholder="Nivel de riego/aspersión (0 - 100)" required="required" /><p>
+	    	<input type="text" name="horas_luz" placeholder="Horas de luz solar (0 - 100)" required="required" /><br>
+        <input type="text" name="nivel_riego" placeholder="Nivel de riego/aspersión (0 - 100)" required="required" /><p>
 
         <button type="submit" class="btn btn-primary btn-block btn-large">Calcular crecimiento tentativo</button></p>
     </form>
 
    <br>
    <br>
+   {% if prediction_text %}
    <h4 style="color:Violet;">
    {{ prediction_text }} </h4>
+   {% endif %}
    <p style="color: white; font-size: 0.9em;">
     Ingresa valores numéricos dentro del rango 0 a 100 para simular condiciones básicas de luz y riego en esta fase beta.
    </p>
