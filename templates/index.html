@@ -6,87 +6,103 @@
   <title>Panel experimental de cultivo urbano</title>
   <style>
     :root {
-      --bg: #0c0f17;
-      --panel: #161b2b;
-      --accent: #7b5ed0;
-      --accent-light: #b89aff;
-      --text: #f2f2f2;
-      --error: #ff6b6b;
+      --bg: #0e1a11;
+      --panel: #132416;
+      --accent: #2ea84a;
+      --accent-light: #7bd47f;
+      --accent-dark: #1c7533;
+      --text: #f3f9f3;
+      --muted: rgba(243, 249, 243, 0.75);
+      --error: #f56666;
     }
     body {
       margin: 0;
       min-height: 100vh;
       font-family: "Poppins", "Segoe UI", Tahoma, sans-serif;
-      background: radial-gradient(circle at top, #1f2d46, var(--bg));
+      background: radial-gradient(circle at top, #173622, var(--bg));
       color: var(--text);
       display: flex;
       align-items: center;
       justify-content: center;
       padding: 2rem;
     }
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-image:
+        radial-gradient(circle at 20% 20%, rgba(125, 220, 130, 0.15), transparent 35%),
+        radial-gradient(circle at 80% 10%, rgba(56, 122, 75, 0.08), transparent 30%),
+        radial-gradient(circle at 50% 80%, rgba(58, 171, 101, 0.12), transparent 40%);
+      z-index: 0;
+      pointer-events: none;
+    }
     .panel {
+      position: relative;
+      z-index: 1;
       width: 100%;
       max-width: 480px;
       background: var(--panel);
-      border-radius: 18px;
+      border-radius: 20px;
       padding: 2.5rem;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
-      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 25px 65px rgba(0, 0, 0, 0.45);
+      border: 1px solid rgba(255, 255, 255, 0.06);
     }
     h1 {
       margin-top: 0;
-      font-size: 1.8rem;
+      font-size: 1.9rem;
       color: var(--accent-light);
       text-align: center;
+      letter-spacing: 0.5px;
     }
     p.sub {
       text-align: center;
-      color: rgba(255, 255, 255, 0.7);
-      margin-bottom: 1.5rem;
+      color: var(--muted);
+      margin-bottom: 1.6rem;
+      font-size: 0.95rem;
     }
     .input-group {
-      position: relative;
       margin-bottom: 1.2rem;
     }
     .input-group label {
       display: block;
       font-size: 0.9rem;
       margin-bottom: 0.35rem;
-      color: rgba(255, 255, 255, 0.85);
+      color: var(--muted);
     }
     .input-group input {
       width: 100%;
       padding: 0.85rem 1rem;
-      border-radius: 10px;
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      background: rgba(255, 255, 255, 0.04);
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      background: rgba(255, 255, 255, 0.02);
       color: var(--text);
       font-size: 1rem;
-      transition: border-color 0.2s, transform 0.2s;
+      transition: border-color 0.2s, box-shadow 0.2s;
     }
     .input-group input:focus {
       border-color: var(--accent);
       outline: none;
-      transform: translateY(-2px);
+      box-shadow: 0 0 0 3px rgba(46, 168, 74, 0.25);
     }
     button {
       width: 100%;
       border: none;
-      border-radius: 12px;
+      border-radius: 14px;
       padding: 0.95rem 1rem;
-      background: linear-gradient(135deg, var(--accent), var(--accent-light));
-      color: #fff;
-      font-size: 1rem;
+      background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+      color: #f5fff4;
+      font-size: 1.05rem;
       cursor: pointer;
       transition: transform 0.2s, box-shadow 0.2s;
     }
     button:hover {
       transform: translateY(-1px);
-      box-shadow: 0 10px 25px rgba(123, 94, 208, 0.35);
+      box-shadow: 0 15px 30px rgba(30, 120, 55, 0.35);
     }
     .errores {
-      background: rgba(255, 107, 107, 0.1);
-      border: 1px solid rgba(255, 107, 107, 0.5);
+      background: rgba(245, 102, 102, 0.12);
+      border: 1px solid rgba(245, 102, 102, 0.4);
       padding: 1rem;
       border-radius: 12px;
       color: var(--error);
@@ -97,8 +113,8 @@
       margin-top: 1.5rem;
       padding: 1rem;
       border-radius: 12px;
-      background: rgba(123, 94, 208, 0.15);
-      border: 1px solid rgba(123, 94, 208, 0.4);
+      background: rgba(46, 168, 74, 0.15);
+      border: 1px solid rgba(123, 212, 127, 0.4);
       text-align: center;
       font-size: 1.1rem;
       color: var(--accent-light);
@@ -107,7 +123,7 @@
       margin-top: 1rem;
       font-size: 0.9rem;
       text-align: center;
-      color: rgba(255, 255, 255, 0.7);
+      color: var(--muted);
     }
   </style>
 </head>

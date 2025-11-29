@@ -3,7 +3,7 @@
 Vistas HTML utilizadas por Flask. Actualmente solo existe `index.html`, heredado del formulario original de la Guía 21 y adaptado a la temática de cultivo urbano.
 
 ## index.html
-- Estilos integrados (`<style>`) para mostrar un panel con fondo oscuro, inputs con etiquetas y un botón con gradiente. Esto hace que la demostración en video luzca más profesional sin depender de archivos CSS externos.
+- Estilos integrados (`<style>`) con una paleta verde natural, degradados suaves y elementos que recuerdan a una huerta (fondos radiales, bordes redondeados). Esto refuerza la temática de cultivo urbano para la presentación.
 - Campos `horas_luz` y `nivel_riego` mantienen placeholders y validaciones requeridas.
 - Sección de errores (`.errores`) que muestra la lista proveniente de `services/validacion.py`.
 - Caja de resultado (`.resultado`) que solo aparece cuando hay predicción, resaltando el puntaje calculado.
