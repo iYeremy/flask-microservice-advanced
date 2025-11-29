@@ -1,18 +1,18 @@
 # https://youtu.be/bluclMxiUkA
 """
-Multiple Linear Regression uses several explanatory variables to predict the outcome of a response variable.
-There are a lot of variables and multiple linear regression is designed to create a model 
-based on all these variables. 
+La regresión lineal múltiple utiliza varias variables explicativas para predecir el resultado de una variable respuesta.
+Existen muchas variables y la regresión lineal múltiple está diseñada para crear un modelo
+basado en todas estas variables.
 
-#Dataset link:
+#Enlace del conjunto de datos:
 https://cdn.scribbr.com/wp-content/uploads//2020/02/heart.data_.zip?_ga=2.217642335.893016210.1598387608-409916526.1598387608
 
-#Heart disease
-The effect that the independent variables biking and smoking 
-have on the dependent variable heart disease 
+#Enfermedad cardíaca
+El efecto que las variables independientes biking y smoking
+tienen sobre la variable dependiente heart disease
 
-the percentage of people biking to work each day, the percentage of people smoking, 
-and the percentage of people with heart disease in an imaginary sample of 500 towns.
+el porcentaje de personas que van al trabajo en bicicleta cada día, el porcentaje de personas que fuman,
+y el porcentaje de personas con enfermedad cardíaca en una muestra imaginaria de 500 ciudades.
 
 
 """
@@ -25,7 +25,7 @@ df = pd.read_csv('heart_data.csv')
 print(df.head())
 
 df = df.drop("Unnamed: 0", axis=1)
-#A few plots in Seaborn to understand the data
+#Algunas gráficas en Seaborn para entender los datos
 
 sns.lmplot(x='biking', y='heart.disease', data=df)  
 sns.lmplot(x='smoking', y='heart.disease', data=df)  
@@ -39,14 +39,14 @@ X_train, X_test, y_train, y_test = train_test_split(x_df, y_df, test_size=0.3, r
 
 from sklearn import linear_model
 
-#Create Linear Regression object
+#Crear objeto de regresión lineal
 model = linear_model.LinearRegression()
 
-#Now let us call fit method to train the model using independent variables.
-#And the value that needs to be predicted (Images_Analyzed)
+#Ahora llamamos al método fit para entrenar el modelo usando las variables independientes.
+#Y el valor que se debe predecir (Images_Analyzed)
 
-model.fit(X_train, y_train) #Indep variables, dep. variable to be predicted
-print(model.score(X_train, y_train))  #Prints the R^2 value, a measure of how well
+model.fit(X_train, y_train) #Variables independientes, variable dependiente a predecir
+print(model.score(X_train, y_train))  #Imprime el valor R^2, una medida de qué tan bien
 
 
 prediction_test = model.predict(X_test)    
@@ -60,10 +60,10 @@ model = pickle.load(open('model.pkl','rb'))
 print(model.predict([[20.1, 56.3]]))
 
 
-#Model is ready. Let us check the coefficients, stored as reg.coef_.
-#These are a, b, and c from our equation. 
-#Intercept is stored as reg.intercept_
+#El modelo está listo. Veamos los coeficientes, almacenados como reg.coef_.
+#Estos son a, b y c de nuestra ecuación. 
+#La intersección se almacena como reg.intercept_
 #print(model.coef_, model.intercept_)
 
-#All set to predict the number of images someone would analyze at a given time
+#Todo listo para predecir el número de imágenes que alguien analizaría en un momento dado
 #print(model.predict([[13, 2, 23]]))
