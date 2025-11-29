@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   
-  <!-- Make it compatible to mobile devices -->
+  <!-- Asegura la compatibilidad con dispositivos móviles -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   <title>Heart Disease Percent</title>
@@ -14,8 +14,8 @@
  <div class="login">
 	<h1 style="color:Violet;">Heart disease prediction</h1>
 
-     <!-- Action is where the data is sent. In our case, predict page.
-     If action is omitted, it assumed to be the current page -->
+     <!-- Action indica adónde se envían los datos; en nuestro caso, a la página predict.
+     Si se omite action, se asume que es la página actual -->
     <form action="{{ url_for('predict')}}"method="post">
     	<input type="text" name="percent biking" placeholder="Percent population biking" required="required" /><br>
         <input type="text" name="percent smoking" placeholder="Percent population smoking" required="required" /><p>
