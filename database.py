@@ -33,7 +33,6 @@ def inicializar_bd() -> None:
 
 @contextmanager
 def sesion_bd():
-    """Provee un contexto transaccional alrededor de una serie de operaciones."""
     session = SesionLocal()
     try:
         yield session
