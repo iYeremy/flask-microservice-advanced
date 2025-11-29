@@ -1,12 +1,10 @@
 # https://youtu.be/bluclMxiUkA
 """
-Application that predicts heart disease percentage in the population of a town
-based on the number of bikers and smokers. 
+Simulador beta de cultivo urbano que estima el puntaje de crecimiento de una parcela
+a partir de dos parámetros muy simples: horas de luz solar y nivel de riego/aspersión.
 
-Trained on the data set of percentage of people biking 
-to work each day, the percentage of people smoking, and the percentage of 
-people with heart disease in an imaginary sample of 500 towns.
-
+Por ahora se apoya en un modelo sencillo entrenado con datos sintéticos,
+pero servirá como base para las siguientes iteraciones del sistema.
 """
 
 
@@ -39,13 +37,17 @@ def home():
 @app.route('/predict',methods=['POST'])
 def predict():
 
-    int_features = [float(x) for x in request.form.values()] #Convert string inputs to float.
-    features = [np.array(int_features)]  #Convert to the form [[a, b]] for input to the model
+    sunlight_hours = float(request.form.get('sunlight_hours'))  #Horas equivalentes de luz solar
+    watering_level = float(request.form.get('watering_level'))  #Nivel de riego/aspersión
+    features = [np.array([sunlight_hours, watering_level])]  #Formato [[a, b]] para el modelo
     prediction = model.predict(features)  # features Must be in the form [[a, b]]
 
     output = round(prediction[0], 2)
 
-    return render_template('index.html', prediction_text='Percent with heart disease is {}'.format(output))
+    return render_template(
+        'index.html',
+        prediction_text='Puntaje estimado de crecimiento: {}'.format(output)
+    )
 
 
 #When the Python interpreter reads a source file, it first defines a few special variables. 
