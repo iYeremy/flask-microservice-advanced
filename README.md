@@ -93,7 +93,7 @@ curl -X POST http://localhost:5000/api/predict \
 Otra opcion mas grafica es utilizar Postman
 
 <div align="center">
-  <img src="docs/images/Postman.png" width="400">
+  <img src="docs/images/Postman.png" width="600">
 </div>
 Puedes ingresar a https://www.postman.com/ para descargarlo y hacer tus pruebas (Principal motivo por el cual implemente API REST JSON)
 
