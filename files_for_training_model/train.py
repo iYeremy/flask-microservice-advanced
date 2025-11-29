@@ -42,10 +42,13 @@ print(y_test, prediction_test)
 print("Mean sq. errror between y_test and predicted =", np.mean(prediction_test-y_test)**2)
 
 import pickle
-pickle.dump(model, open('model.pkl','wb'))
+ruta_modelo = BASE_DIR / 'model.pkl'
+with ruta_modelo.open('wb') as salida:
+    pickle.dump(model, salida)
 
-model = pickle.load(open('model.pkl','rb'))
-print(model.predict([[20.1, 56.3]]))
+with ruta_modelo.open('rb') as entrada:
+    modelo_cargado = pickle.load(entrada)
+print(modelo_cargado.predict([[20.1, 56.3]]))
 
 
 #El modelo está listo. Veamos los coeficientes, almacenados como reg.coef_.
