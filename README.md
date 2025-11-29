@@ -1,6 +1,19 @@
 # Introducción
 
-Simulador beta de cultivo urbano: una app Flask que recibe horas de luz solar y nivel de riego para estimar el puntaje de crecimiento de una parcela ficticia. Este es el punto de partida para incorporar el resto de componentes del proyecto final (persistencia, concurrencia, APIs, etc.).
+Simulador de cultivo : una app Flask que recibe horas de luz solar y nivel de riego para estimar el puntaje de crecimiento de una parcela ficticia. Este es el punto de partida para incorporar el resto de componentes del proyecto final (persistencia, concurrencia, APIs, etc.).
+
+## ¿Por qué estas mejoras?
+
+-   **Cambio de temática**: el dataset original de heart disease resultaba difícil de conectar con sensores, persistencia y visualizaciones. Renombrar la problemática a cultivo permite explicar fácilmente los inputs y justifica futuros módulos (p.ej., un sensor de soporte que reporte luz o riego).
+-   **Persistencia + validaciones + API JSON**: forman un flujo completo. Persistir cada simulación en SQLite (SQLAlchemy) garantiza trazabilidad; las validaciones compartidas evitan que el modelo reciba datos erróneos; y el endpoint REST (`POST /api/predict`) habilita la exposición de servicios que pide el proyecto.
+-   **Modelo entrenado propio**: se documenta cómo regenerar `model.pkl` con datos renombrados, demostrando que la app depende de un modelo real y está lista para entrenar con nuevos datos.
+
+## Flujo del sistema
+
+1. Usuario (HTML o API) envía `horas_luz` y `nivel_riego`.
+2. `services/validacion.py` valida rangos/tipos; si hay errores, se devuelven de inmediato.
+3. `services/simulaciones.py` carga el modelo, calcula el puntaje y guarda la simulación en SQLite.
+4. La respuesta llega como vista HTML o JSON con el ID del registro almacenado.
 
 # Dependencias necesarias
 
@@ -13,15 +26,30 @@ Simulador beta de cultivo urbano: una app Flask que recibe horas de luz solar y 
 
 # Estructura general del repositorio
 
--   `app.py`: rutas Flask (HTML y API JSON) que orquestan la validación y persistencia.
--   `database.py`: configuración SQLAlchemy y modelo `Simulacion`.
--   `services/`: lógica compartida.
-    -   `validacion.py`: reglas y mensajes para `horas_luz` / `nivel_riego`.
-    -   `simulaciones.py`: carga del modelo, predicción y almacenamiento.
--   `templates/`: vista HTML (`index.html`) que usa el formulario original.
--   `files_for_training_model/`: dataset sintético, script `train.py` y utilidades para regenerar `model.pkl`.
--   `models/`: almacena el `model.pkl` que la app carga al arrancar.
--   `requirements*.txt` / `pyproject.toml`: manejan dependencias para ejecución y entrenamiento.
+```
+├── app.py
+├── database.py
+├── files_for_training_model/
+│   ├── growth_data.csv
+│   ├── train.py
+│   └── README.md
+├── models/
+│   ├── model.pkl
+│   └── README.md
+├── services/
+│   ├── simulaciones.py
+│   ├── validacion.py
+│   └── README.md
+├── templates/
+│   ├── index.html
+│   └── README.md
+├── requirements.txt
+├── requirements-train.txt
+├── pyproject.toml
+└── README.md
+```
+
+El resto de carpetas (`instance/`, `.venv/`) están ignoradas por Git y/o se rellenan en ejecución.
 
 # Proposito del sistema
 
