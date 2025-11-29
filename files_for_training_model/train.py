@@ -11,22 +11,16 @@ parámetros de control y funcionará como base hasta contar con mediciones reale
 
 from pathlib import Path
 import pandas as pd
-import seaborn as sns
 import numpy as np
 
 BASE_DIR = Path(__file__).parent
 df = pd.read_csv(BASE_DIR / 'growth_data.csv')
 print(df.head())
 
-df = df.drop("plot_id", axis=1)
-#Algunas gráficas en Seaborn para entender el comportamiento del crecimiento
+df = df.drop("parcela_id", axis=1)
 
-sns.lmplot(x='sunlight_hours', y='growth_score', data=df)  
-sns.lmplot(x='watering_level', y='growth_score', data=df)  
-
-
-x_df = df.drop('growth_score', axis=1)
-y_df = df['growth_score']
+x_df = df.drop('puntaje_crecimiento', axis=1)
+y_df = df['puntaje_crecimiento']
 
 from sklearn.model_selection import train_test_split
 X_train, X_test, y_train, y_test = train_test_split(x_df, y_df, test_size=0.3, random_state=42)
