@@ -12,8 +12,36 @@ import numpy as np
 from flask import Flask, request, render_template
 import pickle
 
+from database import Simulacion, inicializar_bd, sesion_bd
+
 #Create an app object using the Flask class. 
 app = Flask(__name__)
+inicializar_bd()
+
+LIMITES_CONTROLES = {
+    "horas_luz": (0.0, 100.0),
+    "nivel_riego": (0.0, 100.0),
+}
+
+
+def validar_controles(origen):
+    errores = {}
+    valores = {}
+    for campo, (limite_inferior, limite_superior) in LIMITES_CONTROLES.items():
+        valor_crudo = origen.get(campo)
+        if valor_crudo is None:
+            errores[campo] = "Campo requerido."
+            continue
+        try:
+            valor = float(valor_crudo)
+        except ValueError:
+            errores[campo] = "Debe ser un número válido."
+            continue
+        if not limite_inferior <= valor <= limite_superior:
+            errores[campo] = f"Debe estar entre {limite_inferior} y {limite_superior}."
+            continue
+        valores[campo] = valor
+    return valores, errores
 
 #Load the trained model. (Pickle file)
 model = pickle.load(open('models/model.pkl', 'rb'))
@@ -37,12 +65,22 @@ def home():
 @app.route('/predict',methods=['POST'])
 def predict():
 
-    sunlight_hours = float(request.form.get('sunlight_hours'))  #Horas equivalentes de luz solar
-    watering_level = float(request.form.get('watering_level'))  #Nivel de riego/aspersión
-    features = [np.array([sunlight_hours, watering_level])]  #Formato [[a, b]] para el modelo
-    prediction = model.predict(features)  # features Must be in the form [[a, b]]
+    controles, errores = validar_controles(request.form)
+    if errores:
+        return render_template('index.html', errors=errores, prediction_text=None)
+
+    caracteristicas = [np.array([controles["horas_luz"], controles["nivel_riego"]])]  #Formato [[a, b]] para el modelo
+    prediction = model.predict(caracteristicas)  # features Must be in the form [[a, b]]
 
     output = round(prediction[0], 2)
+    with sesion_bd() as session:
+        session.add(
+            Simulacion(
+                horas_luz=controles["horas_luz"],
+                nivel_riego=controles["nivel_riego"],
+                puntaje_crecimiento=output,
+            )
+        )
 
     return render_template(
         'index.html',
