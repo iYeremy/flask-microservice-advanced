@@ -90,6 +90,13 @@ curl -X POST http://localhost:5000/api/predict \
      -d '{"horas_luz":42,"nivel_riego":35}'
 ```
 
+Otra opcion mas grafica es utilizar Postman
+
+<div align="center">
+  <img src="docs/images/Postman.png" width="400">
+</div>
+Puedes ingresar a https://www.postman.com/ para descargarlo y hacer tus pruebas (Principal motivo por el cual implemente API REST JSON)
+
 # Implementaciones
 
 -   **Persistencia con SQLAlchemy**: cada simulación validada se almacena en `sqlite:///instance/growth.db` con los parámetros ingresados, el puntaje estimado y la fecha. Esto habilita auditorías, análisis estadísticos y reentrenamientos futuros.
