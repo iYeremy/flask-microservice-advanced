@@ -1,4 +1,3 @@
-# https://youtu.be/bluclMxiUkA
 """
 Simulador beta de cultivo urbano que estima el puntaje de crecimiento de una parcela
 a partir de dos parámetros muy simples: horas de luz solar y nivel de riego/aspersión.
