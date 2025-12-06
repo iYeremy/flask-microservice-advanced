@@ -1,6 +1,6 @@
 # Introducción
 
-Simulador de cultivo : una app Flask que recibe horas de luz solar y nivel de riego para estimar el puntaje de crecimiento de una parcela ficticia. Este es el punto de partida para incorporar el resto de componentes del proyecto final (persistencia, concurrencia, APIs, etc.).
+Simulador de cultivo : Una app Flask que recibe horas de luz solar y nivel de riego para estimar el puntaje de crecimiento de una parcela ficticia. Este es el punto de partida para incorporar el resto de componentes del proyecto final
 
 # Ejecución rápida
 
@@ -71,8 +71,6 @@ Puedes ingresar a https://www.postman.com/ para descargarlo y hacer tus pruebas 
 ├── pyproject.toml
 └── README.md
 ```
-
-El resto de carpetas (`instance/`, `.venv/`) están ignoradas por Git y/o se rellenan en ejecución.
 
 ## ¿Por qué estas mejoras?
 
