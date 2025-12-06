@@ -2,59 +2,6 @@
 
 Simulador de cultivo : una app Flask que recibe horas de luz solar y nivel de riego para estimar el puntaje de crecimiento de una parcela ficticia. Este es el punto de partida para incorporar el resto de componentes del proyecto final (persistencia, concurrencia, APIs, etc.).
 
-## ¿Por qué estas mejoras?
-
--   **Cambio de temática**: el dataset original de heart disease resultaba difícil de conectar con sensores, persistencia y visualizaciones. Renombrar la problemática a cultivo permite explicar fácilmente los inputs y justifica futuros módulos (p.ej., un sensor de soporte que reporte luz o riego).
--   **Persistencia + validaciones + API JSON**: forman un flujo completo. Persistir cada simulación en SQLite (SQLAlchemy) garantiza trazabilidad; las validaciones compartidas evitan que el modelo reciba datos erróneos; y el endpoint REST (`POST /api/predict`) habilita la exposición de servicios que pide el proyecto.
--   **Modelo entrenado propio**: se documenta cómo regenerar `model.pkl` con datos renombrados, demostrando que la app depende de un modelo real y está lista para entrenar con nuevos datos.
-
-## Flujo del sistema
-
-1. Usuario (HTML o API) envía `horas_luz` y `nivel_riego`.
-2. `services/validacion.py` valida rangos/tipos; si hay errores, se devuelven de inmediato.
-3. `services/simulaciones.py` carga el modelo, calcula el puntaje y guarda la simulación en SQLite.
-4. La respuesta llega como vista HTML o JSON con el ID del registro almacenado.
-
-# Dependencias necesarias
-
--   **Ejecución web**: Flask 3.1.2, SQLAlchemy 2.0.36, NumPy 2.3.5, scikit-learn 1.7.2 (se instalan desde `pyproject.toml` o `requirements.txt`).
--   **Reentrenamiento del modelo**: pandas y scikit-learn (listadas en `requirements-train.txt`). Se recomienda ejecutarlo en un entorno separado para no mezclar dependencias.
--   **SQLite Viewer(opcional)**: extension de VSC que sirve para revisar `instance/growth.db`, pero no es obligatorio.
-<div align="center">
-  <img src="docs/images/SQLiteViewer.png" width="400">
-</div>
-
-# Estructura general del repositorio
-
-```
-├── app.py
-├── database.py
-├── files_for_training_model/
-│   ├── growth_data.csv
-│   ├── train.py
-│   └── README.md
-├── models/
-│   ├── model.pkl
-│   └── README.md
-├── services/
-│   ├── simulaciones.py
-│   ├── validacion.py
-│   └── README.md
-├── templates/
-│   ├── index.html
-│   └── README.md
-├── requirements.txt
-├── requirements-train.txt
-├── pyproject.toml
-└── README.md
-```
-
-El resto de carpetas (`instance/`, `.venv/`) están ignoradas por Git y/o se rellenan en ejecución.
-
-# Proposito del sistema
-
-Ofrecer un microservicio sencillo que toma parámetros de control de una parcela (horas de luz y nivel de riego), estimar su puntaje de crecimiento mediante un modelo entrenado con scikit-learn y guardar cada simulación en SQLite. Sirve como base para probar extensiones del curso: persistencia real, API REST, validaciones consistentes, futuros módulos concurrentes/sockets, etc.
-
 # Ejecución rápida
 
 ## Con uv
@@ -96,6 +43,62 @@ Otra opcion mas grafica es utilizar Postman
   <img src="docs/images/Postman.png" width="600">
 </div>
 Puedes ingresar a https://www.postman.com/ para descargarlo y hacer tus pruebas (Principal motivo por el cual implemente API REST JSON)
+
+# Estructura general del repositorio
+
+```
+├── app.py
+├── database.py
+├── docs/
+│   ├── images/
+│   ├── InformeProyecto.pdf  <--- ACA SE ENCUENTRA EL INFORME DEL PROYECTO
+├── files_for_training_model/
+│   ├── growth_data.csv
+│   ├── train.py
+│   └── README.md
+├── models/
+│   ├── model.pkl
+│   └── README.md
+├── services/
+│   ├── simulaciones.py
+│   ├── validacion.py
+│   └── README.md
+├── templates/
+│   ├── index.html
+│   └── README.md
+├── requirements.txt
+├── requirements-train.txt
+├── pyproject.toml
+└── README.md
+```
+
+El resto de carpetas (`instance/`, `.venv/`) están ignoradas por Git y/o se rellenan en ejecución.
+
+## ¿Por qué estas mejoras?
+
+-   **Cambio de temática**: el dataset original de heart disease resultaba difícil de conectar con sensores, persistencia y visualizaciones. Renombrar la problemática a cultivo permite explicar fácilmente los inputs y justifica futuros módulos (p.ej., un sensor de soporte que reporte luz o riego).
+-   **Persistencia + validaciones + API JSON**: forman un flujo completo. Persistir cada simulación en SQLite (SQLAlchemy) garantiza trazabilidad; las validaciones compartidas evitan que el modelo reciba datos erróneos; y el endpoint REST (`POST /api/predict`) habilita la exposición de servicios que pide el proyecto.
+-   **Modelo entrenado propio**: se documenta cómo regenerar `model.pkl` con datos renombrados, demostrando que la app depende de un modelo real y está lista para entrenar con nuevos datos.
+
+## Flujo del sistema
+
+1. Usuario (HTML o API) envía `horas_luz` y `nivel_riego`.
+2. `services/validacion.py` valida rangos/tipos; si hay errores, se devuelven de inmediato.
+3. `services/simulaciones.py` carga el modelo, calcula el puntaje y guarda la simulación en SQLite.
+4. La respuesta llega como vista HTML o JSON con el ID del registro almacenado.
+
+# Dependencias necesarias
+
+-   **Ejecución web**: Flask 3.1.2, SQLAlchemy 2.0.36, NumPy 2.3.5, scikit-learn 1.7.2 (se instalan desde `pyproject.toml` o `requirements.txt`).
+-   **Reentrenamiento del modelo**: pandas y scikit-learn (listadas en `requirements-train.txt`). Se recomienda ejecutarlo en un entorno separado para no mezclar dependencias.
+-   **SQLite Viewer(opcional)**: extension de VSC que sirve para revisar `instance/growth.db`, pero no es obligatorio.
+<div align="center">
+  <img src="docs/images/SQLiteViewer.png" width="400">
+</div>
+
+# Proposito del sistema
+
+Ofrecer un microservicio sencillo que toma parámetros de control de una parcela (horas de luz y nivel de riego), estimar su puntaje de crecimiento mediante un modelo entrenado con scikit-learn y guardar cada simulación en SQLite. Sirve como base para probar extensiones del curso: persistencia real, API REST, validaciones consistentes, futuros módulos concurrentes/sockets, etc.
 
 # Implementaciones
 
