@@ -1,8 +1,14 @@
-# Introducción
+# Dependencias necesarias
 
-Simulador de cultivo : Una app Flask que recibe horas de luz solar y nivel de riego para estimar el puntaje de crecimiento de una parcela ficticia. Este es el punto de partida para incorporar el resto de componentes del proyecto final
+-   **Ejecución web**: Flask 3.1.2, SQLAlchemy 2.0.36, NumPy 2.3.5 y scikit-learn 1.7.2 (se instalan automáticamente desde `pyproject.toml` o `requirements.txt`).
+-   **Reentrenamiento del modelo**: para ejecutar `files_for_training_model/train.py` instala manualmente `numpy` y `pandas` en un entorno aparte; usando `pip install numpy pandas scikit-learn`.
+-   **SQLite Viewer (opcional)**: extensión de VS Code para inspeccionar `instance/growth.db`, no es obligatoria.
 
-# Ejecución rápida
+<div align="center">
+  <img src="docs/images/SQLiteViewer.png" width="400">
+</div>
+
+# Instalación y ejecución
 
 ## Con uv
 
@@ -23,7 +29,7 @@ Simulador de cultivo : Una app Flask que recibe horas de luz solar y nivel de ri
     source .venv/bin/activate  # o .\.venv\Scripts\activate en Windows
     pip install -r requirements.txt
     ```
-    Para reentrenar el modelo usa `pip install -r requirements-train.txt` en un entorno aparte.
+    Para reentrenar el modelo ejecuta en otro entorno el comando `pip install numpy pandas scikit-learn` y corre `files_for_training_model/train.py`.
 2. Inicia la app:
     ```bash
     python app.py
@@ -67,7 +73,6 @@ Puedes ingresar a https://www.postman.com/ para descargarlo y hacer tus pruebas 
 │   ├── index.html
 │   └── README.md
 ├── requirements.txt
-├── requirements-train.txt
 ├── pyproject.toml
 └── README.md
 ```
@@ -84,15 +89,6 @@ Puedes ingresar a https://www.postman.com/ para descargarlo y hacer tus pruebas 
 2. `services/validacion.py` valida rangos/tipos; si hay errores, se devuelven de inmediato.
 3. `services/simulaciones.py` carga el modelo, calcula el puntaje y guarda la simulación en SQLite.
 4. La respuesta llega como vista HTML o JSON con el ID del registro almacenado.
-
-# Dependencias necesarias
-
--   **Ejecución web**: Flask 3.1.2, SQLAlchemy 2.0.36, NumPy 2.3.5, scikit-learn 1.7.2 (se instalan desde `pyproject.toml` o `requirements.txt`).
--   **Reentrenamiento del modelo**: pandas y scikit-learn (listadas en `requirements-train.txt`). Se recomienda ejecutarlo en un entorno separado para no mezclar dependencias.
--   **SQLite Viewer(opcional)**: extension de VSC que sirve para revisar `instance/growth.db`, pero no es obligatorio.
-<div align="center">
-  <img src="docs/images/SQLiteViewer.png" width="400">
-</div>
 
 # Proposito del sistema
 
